@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Stack, Typography, Rating } from "@mui/material";
 import React, { useState } from "react";
 
 import MyProfile from "../assets/myprofile.png";
@@ -7,33 +7,31 @@ import { Link } from "react-router-dom";
 import Like from "../assets/like.png";
 import Dislike from "../assets/dislike.png";
 
-export const ChatCard = ({ type, message, time, isBackground = "fill" }) => {
+export const HistoryChatCard = ({ type, message, time, review, rating }) => {
   const [hidden, setHidden] = useState(true);
   const isBot = type === "bot";
   const profile = isBot ? BotProfile : MyProfile;
   const name = isBot ? "Soul AI" : "You";
-  const background = isBackground === "fill" ? "#D7C7F421" : "none";
+
+  const reviewOption = review === "" ? true : false;
+  const starRating = rating !== null && rating !== undefined && rating !== "";
 
   return (
     <Box
-      onMouseEnter={() => setHidden(false)}
-      onMouseLeave={() => setHidden(true)}
       display={"flex"}
       width={"100%"}
       justifyContent={"flex-start"}
       alignItems={"center"}
       p={2}
       sx={{
-        backgroundColor: background,
-        boxShadow: "-4px 4px 15px 0px #0000001A",
         borderRadius: "20px",
       }}
       gap={3}
     >
-      <Box width={"65px"}>
-        <img src={profile} alt="Profile Picture" style={{ width: "65px" }} />
+      <Box>
+        <img src={profile} alt="Profile Picture" style={{ width: "100%" }} />
       </Box>
-      <Stack gap={1} flexGrow={1}>
+      <Stack gap={1}>
         <Stack>
           <Typography variant="h1" fontSize={"16px"}>
             {name}
@@ -44,7 +42,7 @@ export const ChatCard = ({ type, message, time, isBackground = "fill" }) => {
           <Typography variant="body1" fontSize={"12px"}>
             {time}
           </Typography>
-          {!hidden && (
+          {reviewOption && (
             <Box display={"flex"} gap={2}>
               <Link>
                 <img src={Like} alt="Like Button" />
@@ -54,7 +52,23 @@ export const ChatCard = ({ type, message, time, isBackground = "fill" }) => {
               </Link>
             </Box>
           )}
+          {starRating && (
+            <Rating
+              name="read-only"
+              value={3}
+              readOnly
+              sx={{ color: "black" }}
+              size="small"
+            />
+          )}
         </Box>
+        {starRating && (
+          <Box>
+            <Typography variant="body1">
+              <span style={{ fontWeight: 700 }}>Feedback</span>: {review}{" "}
+            </Typography>
+          </Box>
+        )}
       </Stack>
     </Box>
   );
