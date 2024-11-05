@@ -29,7 +29,7 @@ const router = createBrowserRouter([
         element: <History />,
       },
       {
-        path: "chat",
+        path: "chat/:querry?",
         element: <Chat />,
       },
     ],

@@ -7,18 +7,40 @@ import { Link } from "react-router-dom";
 import Like from "../assets/like.png";
 import Dislike from "../assets/dislike.png";
 
-export const HistoryChatCard = ({ type, message, time, review, rating }) => {
+export const HistoryChatCard = ({
+  type,
+  message,
+  time,
+  review,
+  rating,
+  handleReview,
+  id,
+}) => {
   const [hidden, setHidden] = useState(true);
   const isBot = type === "bot";
   const profile = isBot ? BotProfile : MyProfile;
   const name = isBot ? "Soul AI" : "You";
 
-  const reviewOption = review === "" ? true : false;
+  console.log(review);
+
+  const reviewOption = !hidden && type === "bot";
+  const IsReview = review !== "" && review;
   const starRating = rating !== null && rating !== undefined && rating !== "";
+
+  const openFeedback = () => {
+    handleReview(id, "feedback");
+  };
+
+  const openReview = () => {
+    handleReview(id, "review");
+    console.log(id);
+  };
 
   return (
     <Box
       display={"flex"}
+      onMouseEnter={() => setHidden(false)}
+      onMouseLeave={() => setHidden(true)}
       width={"100%"}
       justifyContent={"flex-start"}
       alignItems={"center"}
@@ -44,10 +66,10 @@ export const HistoryChatCard = ({ type, message, time, review, rating }) => {
           </Typography>
           {reviewOption && (
             <Box display={"flex"} gap={2}>
-              <Link>
+              <Link onClick={openReview}>
                 <img src={Like} alt="Like Button" />
               </Link>
-              <Link>
+              <Link onClick={openFeedback}>
                 <img src={Dislike} alt="Dislike Button" />
               </Link>
             </Box>
@@ -55,14 +77,14 @@ export const HistoryChatCard = ({ type, message, time, review, rating }) => {
           {starRating && (
             <Rating
               name="read-only"
-              value={3}
+              value={Number(rating)}
               readOnly
               sx={{ color: "black" }}
               size="small"
             />
           )}
         </Box>
-        {starRating && (
+        {IsReview && (
           <Box>
             <Typography variant="body1">
               <span style={{ fontWeight: 700 }}>Feedback</span>: {review}{" "}

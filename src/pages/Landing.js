@@ -1,11 +1,18 @@
 import { Typography, Box, Stack, TextField } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import LogoIcon from "../assets/logoicon.png";
 import styles from "./Landing.module.css";
 import { SugessionCard } from "../components/SugessionCard";
 import { Button } from "../components/common/Button";
+import { useNavigate } from "react-router-dom";
 
 export const Landing = () => {
+  const [question, setQuestion] = useState("");
+  const navigate = useNavigate();
+
+  const handle = () => {
+    navigate(`chat/${question}`);
+  };
   return (
     <Box
       display={"flex"}
@@ -46,6 +53,7 @@ export const Landing = () => {
       <Box display={"flex"} gap={2}>
         <TextField
           id="filled"
+          onChange={(event) => setQuestion(event.target.value)}
           fullWidth
           multiline
           maxRows={4}
@@ -58,7 +66,7 @@ export const Landing = () => {
           }}
         />
 
-        <Button variant={"thin"} content={"Ask"} />
+        <Button variant={"thin"} content={"Ask"} action={handle} />
         <Button variant={"thin"} content={"Save"} />
       </Box>
     </Box>

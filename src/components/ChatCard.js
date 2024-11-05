@@ -7,12 +7,28 @@ import { Link } from "react-router-dom";
 import Like from "../assets/like.png";
 import Dislike from "../assets/dislike.png";
 
-export const ChatCard = ({ type, message, time, isBackground = "fill" }) => {
+export const ChatCard = ({
+  type,
+  message,
+  time,
+  isBackground = "fill",
+  handleReview,
+  id,
+}) => {
   const [hidden, setHidden] = useState(true);
   const isBot = type === "bot";
   const profile = isBot ? BotProfile : MyProfile;
   const name = isBot ? "Soul AI" : "You";
   const background = isBackground === "fill" ? "#D7C7F421" : "none";
+
+  const openFeedback = () => {
+    handleReview(id, "feedback");
+  };
+
+  const openReview = () => {
+    handleReview(id, "review");
+    console.log(id);
+  };
 
   return (
     <Box
@@ -46,10 +62,10 @@ export const ChatCard = ({ type, message, time, isBackground = "fill" }) => {
           </Typography>
           {!hidden && (
             <Box display={"flex"} gap={2}>
-              <Link>
+              <Link onClick={openReview}>
                 <img src={Like} alt="Like Button" />
               </Link>
-              <Link>
+              <Link onClick={openFeedback}>
                 <img src={Dislike} alt="Dislike Button" />
               </Link>
             </Box>

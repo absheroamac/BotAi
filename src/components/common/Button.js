@@ -2,7 +2,7 @@ import { Typography } from "@mui/material";
 import React from "react";
 import { useTheme } from "@emotion/react";
 
-export const Button = ({ content, variant, action }) => {
+export const Button = ({ content, variant, action, type }) => {
   const bold = variant === "bold";
   const theme = useTheme();
   const style = {
@@ -12,6 +12,7 @@ export const Button = ({ content, variant, action }) => {
   };
   return (
     <button
+      type={type}
       onClick={action}
       style={{
         width: style.width,

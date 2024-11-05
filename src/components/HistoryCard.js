@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import { HistoryChatCard } from "./HistoryChatCard";
 
-export const HistoryCard = ({ data }) => {
+export const HistoryCard = ({ data, handleReview, id }) => {
   return (
     <Box
       sx={{
@@ -10,8 +10,13 @@ export const HistoryCard = ({ data }) => {
         borderRadius: "10px",
       }}
     >
-      <HistoryChatCard {...data.request} type={"you"} />
-      <HistoryChatCard {...data.response} type={"bot"} />
+      <HistoryChatCard {...data.request} type={"you"} id={id} />
+      <HistoryChatCard
+        {...data.response}
+        type={"bot"}
+        handleReview={handleReview}
+        id={id}
+      />
     </Box>
   );
 };

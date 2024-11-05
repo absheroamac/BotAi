@@ -1,11 +1,16 @@
 import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 import Logo from "../../assets/Group 1000011095.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Edit from "../../assets/edit.png";
 import { Button } from "./Button";
 
 export const SideBar = () => {
+  const navigate = useNavigate();
+
+  const handleAction = () => {
+    navigate("/history");
+  };
   return (
     <Stack gap={0}>
       <Box
@@ -26,7 +31,11 @@ export const SideBar = () => {
         </Link>
       </Box>
       <Box p={2}>
-        <Button variant={"bold"} content={"Past Conversations"} />
+        <Button
+          variant={"bold"}
+          content={"Past Conversations"}
+          action={handleAction}
+        />
       </Box>
     </Stack>
   );
