@@ -4,7 +4,7 @@ import LogoIcon from "../assets/logoicon.png";
 import styles from "./Landing.module.css";
 import { SugessionCard } from "../components/SugessionCard";
 import { Button } from "../components/common/Button";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NavBar from "../components/common/NavBar";
 
 export const Landing = () => {
@@ -35,28 +35,49 @@ export const Landing = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-          <SugessionCard
-            title={"Hi, what is the weather"}
-            body={"Get immediate AI generated response"}
-          />
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            onClick={() => navigate("/chat/Hi, what is the weather")}
+          >
+            <SugessionCard
+              title={"Hi, what is the weather"}
+              body={"Get immediate AI generated response"}
+            />
+          </Link>
+        </Grid>
+
+        <Grid item xs={12} md={6}>
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            onClick={() => navigate("/chat/Hi, what is my location")}
+          >
+            <SugessionCard
+              title={"Hi, what is my location"}
+              body={"Get immediate AI generated response"}
+            />
+          </Link>
         </Grid>
         <Grid item xs={12} md={6}>
-          <SugessionCard
-            title={"Hi, what is the weather"}
-            body={"Get immediate AI generated response"}
-          />
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            onClick={() => navigate("/chat/Hi, what is the temperature")}
+          >
+            <SugessionCard
+              title={"Hi, what is the temperature"}
+              body={"Get immediate AI generated response"}
+            />
+          </Link>
         </Grid>
         <Grid item xs={12} md={6}>
-          <SugessionCard
-            title={"Hi, what is the weather"}
-            body={"Get immediate AI generated response"}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <SugessionCard
-            title={"Hi, what is the weather"}
-            body={"Get immediate AI generated response"}
-          />
+          <Link
+            style={{ textDecoration: "none", color: "inherit" }}
+            onClick={() => navigate("/chat/Hi, how are you")}
+          >
+            <SugessionCard
+              title={"Hi, how are you"}
+              body={"Get immediate AI generated response"}
+            />
+          </Link>
         </Grid>
       </Grid>
 
