@@ -50,30 +50,30 @@ export const HistoryChatCard = ({
       }}
       gap={3}
     >
-      <Box>
+      <Box sx={{ width: { xs: "47px", md: "65px" }, minWidth: "47px" }}>
         <img src={profile} alt="Profile Picture" style={{ width: "100%" }} />
       </Box>
       <Stack gap={1}>
         <Stack>
-          <Typography variant="h1" fontSize={"16px"}>
+          <Typography
+            variant="h1"
+            fontSize={"16px"}
+            sx={{ fontSize: { xs: "14px", md: "16px" } }}
+          >
             {name}
           </Typography>
-          <Typography variant="body1">{message}</Typography>
+          <Typography
+            variant="body1"
+            sx={{ fontSize: { xs: "14px", md: "16px" } }}
+          >
+            {message}
+          </Typography>
         </Stack>
         <Box display={"flex"} gap={4}>
           <Typography variant="body1" fontSize={"12px"}>
             {time}
           </Typography>
-          {reviewOption && (
-            <Box display={"flex"} gap={2}>
-              <Link onClick={openReview}>
-                <img src={Like} alt="Like Button" />
-              </Link>
-              <Link onClick={openFeedback}>
-                <img src={Dislike} alt="Dislike Button" />
-              </Link>
-            </Box>
-          )}
+
           {starRating && (
             <Rating
               name="read-only"
@@ -86,7 +86,10 @@ export const HistoryChatCard = ({
         </Box>
         {IsReview && (
           <Box>
-            <Typography variant="body1">
+            <Typography
+              variant="body1"
+              sx={{ fontSize: { xs: "14px", md: "16px" } }}
+            >
               <span style={{ fontWeight: 700 }}>Feedback</span>: {review}{" "}
             </Typography>
           </Box>

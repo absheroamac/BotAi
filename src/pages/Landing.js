@@ -1,10 +1,11 @@
-import { Typography, Box, Stack, TextField } from "@mui/material";
+import { Typography, Box, Stack, TextField, Grid } from "@mui/material";
 import React, { useState } from "react";
 import LogoIcon from "../assets/logoicon.png";
 import styles from "./Landing.module.css";
 import { SugessionCard } from "../components/SugessionCard";
 import { Button } from "../components/common/Button";
 import { useNavigate } from "react-router-dom";
+import NavBar from "../components/common/NavBar";
 
 export const Landing = () => {
   const [question, setQuestion] = useState("");
@@ -17,11 +18,12 @@ export const Landing = () => {
     <Box
       display={"flex"}
       flexDirection={"column"}
-      justifyContent={"flex-end"}
+      justifyContent={"space-between"}
       height={"100vh"}
-      p={4}
+      p={2}
       gap={4}
     >
+      <NavBar />
       <Stack justifyContent={"center"} alignItems={"center"} gap={1}>
         <Typography variant="h2" sx={{ fontWeight: 500 }}>
           How Can I Help You Today?
@@ -31,24 +33,32 @@ export const Landing = () => {
         </Box>
       </Stack>
 
-      <Box className={styles.grid}>
-        <SugessionCard
-          title={"Hi, what is the weather"}
-          body={"Get immediate AI generated response"}
-        />
-        <SugessionCard
-          title={"Hi, what is the weather"}
-          body={"Get immediate AI generated response"}
-        />
-        <SugessionCard
-          title={"Hi, what is the weather"}
-          body={"Get immediate AI generated response"}
-        />
-        <SugessionCard
-          title={"Hi, what is the weather"}
-          body={"Get immediate AI generated response"}
-        />
-      </Box>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+          <SugessionCard
+            title={"Hi, what is the weather"}
+            body={"Get immediate AI generated response"}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SugessionCard
+            title={"Hi, what is the weather"}
+            body={"Get immediate AI generated response"}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SugessionCard
+            title={"Hi, what is the weather"}
+            body={"Get immediate AI generated response"}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <SugessionCard
+            title={"Hi, what is the weather"}
+            body={"Get immediate AI generated response"}
+          />
+        </Grid>
+      </Grid>
 
       <Box display={"flex"} gap={2}>
         <TextField

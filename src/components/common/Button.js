@@ -19,6 +19,7 @@ export const Button = ({ content, variant, action, type }) => {
         padding: "8px 16px",
         borderRadius: "10px",
         border: "none",
+        cursor: "pointer",
         backgroundColor: theme.palette.secondary.main,
       }}
     >

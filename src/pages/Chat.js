@@ -8,14 +8,18 @@ import { ChatCard } from "../components/ChatCard";
 import { Responses } from "../components/Responses";
 import { Model } from "../components/model/Model";
 import { json, useParams } from "react-router-dom";
+import NavBar from "../components/common/NavBar";
+import { useOutletContext } from "react-router-dom";
 
 export const Chat = () => {
   const [question, setQuestion] = useState("");
-  const [responses, setResponses] = useState([]);
+  const { responses, setResponses } = useOutletContext();
   const [openReview, setOpenReview] = useState(false);
   const [reviewID, setReviewID] = useState(null);
   const [modelType, setModelType] = useState("");
   const { querry } = useParams();
+
+  const sample = [{ date: "", data: { id: "1", request: {}, response: {} } }];
 
   useEffect(() => {
     if (querry) {
@@ -42,6 +46,60 @@ export const Chat = () => {
     setOpenReview(true);
     setModelType(type);
     setReviewID(id);
+  };
+
+  const handleSave = (event) => {
+    const currentList = JSON.parse(localStorage.getItem("chatHistory"));
+
+    const list = { date: new Date(), data: responses };
+    if (!currentList) {
+      localStorage.setItem("chatHistory", JSON.stringify([list]));
+    } else {
+      localStorage.setItem(
+        "chatHistory",
+        JSON.stringify([list, ...currentList])
+      );
+    }
+  };
+
+  const submitRating = (value, id) => {
+    console.log("Button Activated");
+
+    const updated = responses.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          response: {
+            ...item.response,
+            rating: value,
+          },
+        };
+      }
+      return item;
+    });
+
+    setResponses(updated);
+    setOpenReview(false);
+  };
+
+  const submitFeedback = (value, id) => {
+    console.log("Button Activated");
+
+    const updated = responses.map((item) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          response: {
+            ...item.response,
+            review: value,
+          },
+        };
+      }
+      return item;
+    });
+
+    setResponses(updated);
+    setOpenReview(false);
   };
 
   const handleAsk = (event, querry) => {
@@ -94,58 +152,76 @@ export const Chat = () => {
   };
 
   return (
-    <Box
-      display={"flex"}
-      flexDirection={"column"}
-      justifyContent={"flex-end"}
-      height={"100vh"}
-      p={4}
-      gap={4}
-    >
-      <Stack gap={1} overflow={"auto"}>
-        {responses.map((response) => (
-          <Stack gap={1}>
-            <ChatCard
-              type={"you"}
-              message={response.request.message}
-              time={response.request.time}
-            />
-            <ChatCard
-              type={"bot"}
-              message={response.response.message}
-              time={response.response.time}
-              handleReview={handleReview}
-              id={response.id}
-            />
+    <div>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        justifyContent={"space-between"}
+        height={"100vh"}
+        p={2}
+        gap={2}
+      >
+        <NavBar />
+        <Box
+          display="flex"
+          flexDirection="column"
+          height="100%"
+          overflow="hidden"
+          justifyContent={"flex-end"}
+        >
+          <Stack
+            gap={1}
+            overflow="scroll"
+            sx={{ flexGrow: 1, overflowX: "hidden" }}
+          >
+            {responses.map((response) => (
+              <Stack gap={1} key={response.id}>
+                <ChatCard
+                  type="you"
+                  message={response.request.message}
+                  time={response.request.time}
+                />
+                <ChatCard
+                  type="bot"
+                  message={response.response.message}
+                  time={response.response.time}
+                  handleReview={handleReview}
+                  id={response.id}
+                  review={response.response.review}
+                  rating={response.response.rating}
+                />
+              </Stack>
+            ))}
           </Stack>
-        ))}
-      </Stack>
-      <Box display={"flex"} gap={2}>
-        <TextField
-          id="filled"
-          onChange={(event) => setQuestion(event.target.value)}
-          fullWidth
-          multiline
-          maxRows={4}
-          InputProps={{
-            sx: {
-              borderRadius: "5px",
-              backgroundColor: "white",
-              maxHeight: "50px",
-            },
-          }}
-        />
+        </Box>
+        <Box display={"flex"} gap={2} p={0}>
+          <TextField
+            id="filled"
+            onChange={(event) => setQuestion(event.target.value)}
+            fullWidth
+            multiline
+            maxRows={4}
+            InputProps={{
+              sx: {
+                borderRadius: "5px",
+                backgroundColor: "white",
+                maxHeight: "50px",
+              },
+            }}
+          />
 
-        <Button variant={"thin"} content={"Ask"} action={handleAsk} />
-        <Button variant={"thin"} content={"Save"} />
+          <Button variant={"thin"} content={"Ask"} action={handleAsk} />
+          <Button variant={"thin"} content={"Save"} action={handleSave} />
+        </Box>
       </Box>
-
       <Model
         isOpen={openReview}
         setIsOpen={setOpenReview}
         id={reviewID}
         type={modelType}
+        submitRating={submitRating}
+        submitFeedback={submitFeedback}
       />
-    </Box>
+    </div>
   );
 };

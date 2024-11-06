@@ -8,8 +8,14 @@ import { Link } from "react-router-dom";
 
 import X from "../../assets/X.png";
 
-export const Model = ({ isOpen, type = "feedback", setIsOpen, id }) => {
-  console.log("From Model" + id);
+export const Model = ({
+  isOpen,
+  type = "feedback",
+  setIsOpen,
+  id,
+  submitRating,
+  submitFeedback,
+}) => {
   const [reviewInput, setReviewInput] = useState("");
   const [value, setValue] = useState(0);
 
@@ -23,6 +29,11 @@ export const Model = ({ isOpen, type = "feedback", setIsOpen, id }) => {
     setReviewInput(event.target.value);
   };
 
+  const handleRating = (event) => {
+    event.preventDefault();
+    submitRating(value, id);
+  };
+
   const customStyles = {
     content: {
       all: "none",
@@ -30,56 +41,16 @@ export const Model = ({ isOpen, type = "feedback", setIsOpen, id }) => {
       backgroundColor: "#FAF7FF",
       width: "766px",
       height: "335px",
+      maxWidth: "80vw",
       margin: "auto",
       borderRadius: "10px",
       Padding: "1rem",
     },
   };
 
-  const submitRating = (event) => {
+  const handleFeedback = (event) => {
     event.preventDefault();
-
-    const data = JSON.parse(localStorage.getItem("chats"));
-
-    const updated = data.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          response: {
-            ...item.response,
-            rating: value,
-          },
-        };
-      } else {
-        return item;
-      }
-    });
-
-    localStorage.setItem("chats", JSON.stringify(updated));
-    handleClose();
-  };
-
-  const submitFeedback = (event) => {
-    event.preventDefault();
-
-    const data = JSON.parse(localStorage.getItem("chats"));
-
-    const updated = data.map((item) => {
-      if (item.id === id) {
-        return {
-          ...item,
-          response: {
-            ...item.response,
-            review: reviewInput,
-          },
-        };
-      } else {
-        return item;
-      }
-    });
-
-    localStorage.setItem("chats", JSON.stringify(updated));
-    handleClose();
+    submitFeedback(reviewInput, id);
   };
   return (
     <div>
@@ -99,18 +70,28 @@ export const Model = ({ isOpen, type = "feedback", setIsOpen, id }) => {
         >
           <Box display={"flex"} justifyContent={"space-between"}>
             <Box display={"flex"} gap={2}>
-              <img src={FeedbackIcon} />
-              <Typography variant="body1" fontSize={"22px"}>
+              <Box sx={{ width: { xs: "25px", md: "35px" }, minWidth: "25px" }}>
+                <img src={FeedbackIcon} style={{ width: "100%" }} />
+              </Box>
+              <Typography
+                variant="body1"
+                fontSize={"22px"}
+                sx={{
+                  fontSize: { xs: "16px", sm: "20px", md: "20px", lg: "22px" },
+                }}
+              >
                 Provide Additional Feedback
               </Typography>
             </Box>
 
             <Link onClick={handleClose}>
-              <img src={X} />
+              <Box sx={{ width: { xs: "15px", md: "20px" }, minWidth: "15px" }}>
+                <img src={X} style={{ width: "100%" }} />
+              </Box>
             </Link>
           </Box>
 
-          <form onSubmit={isFeedback ? submitFeedback : submitRating}>
+          <form onSubmit={isFeedback ? handleFeedback : handleRating}>
             <Box
               display={"flex"}
               flexDirection={"column"}

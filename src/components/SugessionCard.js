@@ -15,7 +15,7 @@ export const SugessionCard = ({ title, body }) => {
         boxShadow: "0px 4px 10px 0px #00000026",
       }}
       p={3}
-      py={4}
+      py={3}
       gap={1}
     >
       <Typography variant="h1" sx={{ fontSize: "20px" }}>
